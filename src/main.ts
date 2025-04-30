@@ -3,6 +3,7 @@ import { ExpressAdapter } from '@nestjs/platform-express';
 import { App, ExpressReceiver } from '@slack/bolt';
 import * as express from 'express';
 import { AppModule } from './app.module';
+import { registerSlackHandlers } from './slack/slack.handlers';
 
 export const createSlackApp = (options?: {
   expressReceiver?: { app: express.Application };
@@ -33,6 +34,8 @@ async function bootstrap() {
       app: expressApp,
     },
   });
+
+  registerSlackHandlers(slackApp);
 
   await app.listen(process.env.PORT ?? 3000);
 }
